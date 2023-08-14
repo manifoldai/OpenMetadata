@@ -17,14 +17,21 @@ import os
 from typing import Dict, Set
 
 from setuptools import find_namespace_packages, setup
+from setuptools.command.install import install
 
+class InstallWithGenerate(install):
+    def run(self):
+        # Ensure dev extras are installed before running make generate
+        self.distribution.fetch_build_eggs(['dev'])
+        
+        os.system('make generate')
+        install.run(self)
 
 def get_long_description():
     root = os.path.dirname(__file__)
     with open(os.path.join(root, "README.md"), encoding="UTF-8") as file:
         description = file.read()
     return description
-
 
 # Add here versions required for multiple plugins
 VERSIONS = {
@@ -264,6 +271,9 @@ test = {
 
 build_options = {"includes": ["_cffi_backend"]}
 setup(
+    cmdclass={
+        'install': InstallWithGenerate,
+    },
     name="openmetadata-ingestion",
     version="1.1.1.1",
     url="https://open-metadata.org/",

@@ -21,8 +21,13 @@ from setuptools.command.install import install
 
 class InstallWithGenerate(install):
     def run(self):
-        os.system('make install_dev')
-        os.system('make generate')
+        print("a")
+        res = os.system('make install_dev')
+        print(res)
+        print("b")
+        res = os.system('make generate')
+        print(res)
+        print("c")
         install.run(self)
 
 def get_long_description():

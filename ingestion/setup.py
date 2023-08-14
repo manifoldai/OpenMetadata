@@ -21,7 +21,7 @@ from setuptools.command.install import install
 
 class InstallWithGenerate(install):
     def run(self):
-        os.system('make generate')
+        os.system('cd .. && make generate')
         install.run(self)
 
 def get_long_description():

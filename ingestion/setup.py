@@ -21,9 +21,6 @@ from setuptools.command.install import install
 
 class InstallWithGenerate(install):
     def run(self):
-        # Ensure dev extras are installed before running make generate
-        self.distribution.fetch_build_eggs(['dev'])
-        
         os.system('make generate')
         install.run(self)
 
@@ -120,6 +117,7 @@ base_requirements = {
     "typing_extensions<=4.5.0",  # We need to have this fixed due to a yanked release 4.6.0
     "typing-inspect",
     "wheel~=0.38.4",
+    "datamodel-code-generator==0.15.0",
 }
 
 
